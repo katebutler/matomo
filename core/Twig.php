@@ -88,13 +88,18 @@ function piwik_format_money($amount, $idSite)
     return $numberFormatter->formatCurrency($amount, $currencySymbol, GoalManager::REVENUE_PRECISION);
 }
 
+function preg_replace_filter(Twig_Environment $env, $string, $pattern, $replace) {
+    return preg_replace($pattern, $replace, $string);
+}
+
 class PiwikTwigFilterExtension extends \Twig_Extension
 {
     public function getFilters()
     {
         return array(
             new Twig_SimpleFilter('e', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe')),
-            new Twig_SimpleFilter('escape', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe'))
+            new Twig_SimpleFilter('escape', '\Piwik\piwik_escape_filter', array('needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe')),
+            new Twig_SimpleFilter('preg_replace', '\Piwik\preg_replace_filter', array('needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe')),
         );
     }
 
